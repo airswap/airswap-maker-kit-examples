@@ -1,0 +1,5 @@
+{
+  "name": "airswap-maker-tutorial",
+  "version": 2,
+  "routes": [{ "src": "/", "dest": "/api/index.ts" }]
+}
