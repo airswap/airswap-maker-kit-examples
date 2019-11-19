@@ -2,17 +2,13 @@ const assert = require('assert')
 const dotenv = require('dotenv')
 const jayson = require('jayson')
 
-const maker = require('./maker.js')
-const server = require('./comms/web-express.js')
-const constants = require('./scripts/constants.js')
-
+const constants = require('@airswap/maker-kit/constants.js')
 const { orders } = require('@airswap/order-utils')
 
-// Load the .env file
-dotenv.config()
+const server = require('./server.js')
 
 // JSON-RPC client instance
-const client = jayson.client.http(`http://${process.env.BIND_ADDRESS}:${process.env.BIND_PORT}`)
+const client = jayson.client.http(`http://0.0.0.0:8080/`)
 
 // Dummy values for tokens and wallets
 const senderWallet = '0x1FF808E34E4DF60326a3fc4c2b0F80748A3D60c2'
@@ -20,33 +16,15 @@ const senderToken = constants.rinkebyTokens.WETH
 const signerToken = constants.rinkebyTokens.DAI
 const unusedToken = constants.ADDRESS_ZERO
 
-// Configure the network
-server.configure(process.env.BIND_ADDRESS, process.env.BIND_PORT)
-
 describe('Maker', function() {
   // Start the server before any tests
   before(function() {
-    // Start the maker
-    maker.start(
-      server,
-      process.env.ETHEREUM_ACCOUNT,
-      constants.chainsIds.RINKEBY,
-      function({ senderToken }) {
-        return senderToken !== unusedToken
-      },
-      function() {
-        return 0
-      },
-      function() {
-        return 0
-      },
-      'error',
-    )
+    server.start(8080, '0.0.0.0', 'error')
   })
 
   // Stop the server after all tests
   after(function() {
-    maker.stop()
+    server.stop()
   })
 
   // Test the getSenderSideQuote implementation
