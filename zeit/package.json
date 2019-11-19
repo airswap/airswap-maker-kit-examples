@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@airswap/maker-kit": "link:../../airswap-maker-kit",
+    "@airswap/maker-kit": "^1.0.1",
     "@airswap/order-utils": "^0.3.5",
     "@airswap/swap": "^2.2.2",
     "@now/node": "^1.1.2",

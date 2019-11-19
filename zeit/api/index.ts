@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import jayson from 'jayson'
 import winston from 'winston'
-import handlers from '../airswap-maker-kit/handlers'
+import initHandlers from '@airswap/maker-kit'
 
 // Load the .env file
 dotenv.config()
@@ -13,6 +13,8 @@ if (!process.env.ETHEREUM_ACCOUNT) {
 if (!process.env.ETHEREUM_NODE) {
   throw new Error('ETHEREUM_NODE must be set in your .env file')
 }
+
+const handlers = initHandlers(process.env.ETHEREUM_ACCOUNT)
 
 // Setup logger
 const logger = winston.createLogger({
