@@ -7,8 +7,8 @@
 Requires [Node.js](https://nodejs.org) `v8.10.0` or above and NPM or [Yarn](https://yarnpkg.com/lang/en/docs/install/).
 
 ```
-git clone https://github.com/airswap/airswap-maker-kit
-cd airswap-maker-kit
+git clone https://github.com/airswap/airswap-maker-kit-examples
+cd airswap-maker-kit-examples/express
 yarn install
 ```
 
