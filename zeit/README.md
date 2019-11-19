@@ -49,10 +49,6 @@ To use an existing Ethereum account, set the `ETHEREUM_ACCOUNT` in your `.env` f
 
 To use an existing Ethereum node, set the `ETHEREUM_NODE` in your `.env` file. Otherwise you can create a free account with INFURA. Navigate to https://infura.io/ to create an account and generate an API key and URL.
 
-### Contract Versions
-
-The Swap and Indexer contracts used by Maker Kit are specified within their respective packages, `@airswap/swap` and `@airswap/indexer` in the [AirSwap Protocols](https://github.com/airswap/airswap-protocols) repository.
-
 ## Commands
 
 | Command   | Description                    |
