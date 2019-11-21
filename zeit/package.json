@@ -2,7 +2,7 @@
   "name": "maker-kit-example-zeit-now",
   "version": "0.0.1",
   "description": "An example Serverless order maker for the Swap Protocol (https://docs.airswap.io)",
-  "main": "api/index.js",
+  "main": "api/index.ts",
   "author": "Graham Perich <graham@fluidity.io>",
   "scripts": {
     "prettier:run-all": "prettier --write \"src/**/*.{ts,tsx}\"",
@@ -15,6 +15,12 @@
     "@airswap/order-utils": "^0.3.5",
     "@airswap/swap": "^2.2.2",
     "@now/node": "^1.1.2",
+    "ethers": "^4.0.39",
+    "jayson": "^3.1.2",
+    "typescript": "^3.7.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
     "eslint": "^6.6.0",
@@ -22,10 +28,6 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
-    "ethers": "^4.0.39",
-    "jayson": "^3.1.2",
-    "prettier": "^1.19.1",
-    "typescript": "^3.7.2",
-    "winston": "^3.2.1"
+    "prettier": "^1.19.1"
   }
 }
