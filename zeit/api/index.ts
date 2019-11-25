@@ -1,18 +1,15 @@
-import dotenv from 'dotenv' // loads env variables
 import jayson from 'jayson' // JSON-RPC helper
 import winston from 'winston' // logger
 import initHandlers from '@airswap/maker-kit'
+import connect from 'connect'
+import cors from 'cors'
+import bodyParser from 'body-parser'
 
-// Load the .env file
-dotenv.config()
+const jsonParser = bodyParser.json
 
-// Make sure enviornment variables are ready
+// Make sure environment variable is set
 if (!process.env.ETHEREUM_ACCOUNT) {
   throw new Error('ETHEREUM_ACCOUNT must be set in your .env file')
-}
-
-if (!process.env.ETHEREUM_NODE) {
-  throw new Error('ETHEREUM_NODE must be set in your .env file')
 }
 
 // Initialize pricing handlers with our private key
@@ -27,8 +24,11 @@ const logger = winston.createLogger({
   }),
 })
 
+// Instantiate our express-style middleware helper
+const app = connect()
+
 // Listen and respond to incoming JSON-RPC over HTTP requests
-export default new jayson.Server(handlers, {
+const server = new jayson.Server(handlers, {
   router: function(method) {
     try {
       logger.info(`Received ${method} request`)
@@ -39,4 +39,15 @@ export default new jayson.Server(handlers, {
       })
     }
   },
-}).middleware()
+})
+
+// Parse JSON requset body
+app.use(jsonParser())
+
+// Do preflight OPTIONS check before the jayson middleware
+app.use(cors())
+
+// Apply our order handlers
+app.use(server.middleware())
+
+export default app
