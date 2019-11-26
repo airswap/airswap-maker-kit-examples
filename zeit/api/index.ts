@@ -7,7 +7,7 @@ import initHandlers from '@airswap/maker-kit' // airswap maker logic reference i
 
 // Make sure environment variable is set
 if (!process.env.ETHEREUM_ACCOUNT) {
-  throw new Error('ETHEREUM_ACCOUNT must be set in your .env file')
+  throw new Error('ETHEREUM_ACCOUNT must be set')
 }
 
 // Setup logger
@@ -39,7 +39,7 @@ const server = new jayson.Server(handlers, {
 // Instantiate our express-style middleware helper
 const app = connect()
 
-// Parse JSON requset body
+// Parse JSON request body
 app.use(bodyParser.json())
 
 // Do preflight OPTIONS check before the jayson middleware
