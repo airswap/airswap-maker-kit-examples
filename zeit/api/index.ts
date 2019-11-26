@@ -10,9 +10,6 @@ if (!process.env.ETHEREUM_ACCOUNT) {
   throw new Error('ETHEREUM_ACCOUNT must be set in your .env file')
 }
 
-// Initialize pricing handlers with our private key
-const handlers = initHandlers(process.env.ETHEREUM_ACCOUNT)
-
 // Setup logger
 const logger = winston.createLogger({
   level: 'info',
@@ -22,8 +19,8 @@ const logger = winston.createLogger({
   }),
 })
 
-// Instantiate our express-style middleware helper
-const app = connect()
+// Initialize pricing handlers with our private key
+const handlers = initHandlers(process.env.ETHEREUM_ACCOUNT)
 
 // Listen and respond to incoming JSON-RPC over HTTP requests
 const server = new jayson.Server(handlers, {
@@ -38,6 +35,9 @@ const server = new jayson.Server(handlers, {
     }
   },
 })
+
+// Instantiate our express-style middleware helper
+const app = connect()
 
 // Parse JSON requset body
 app.use(bodyParser.json())
