@@ -1,11 +1,9 @@
 import jayson from 'jayson' // JSON-RPC helper
 import winston from 'winston' // logger
-import initHandlers from '@airswap/maker-kit'
-import connect from 'connect'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-
-const jsonParser = bodyParser.json
+import connect from 'connect' // expressJS-like middleware helper
+import cors from 'cors' // CORS middleware
+import bodyParser from 'body-parser' // request body parsing middleware
+import initHandlers from '@airswap/maker-kit' // airswap maker logic reference implementation
 
 // Make sure environment variable is set
 if (!process.env.ETHEREUM_ACCOUNT) {
@@ -42,7 +40,7 @@ const server = new jayson.Server(handlers, {
 })
 
 // Parse JSON requset body
-app.use(jsonParser())
+app.use(bodyParser.json())
 
 // Do preflight OPTIONS check before the jayson middleware
 app.use(cors())
