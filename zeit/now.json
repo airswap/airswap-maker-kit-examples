@@ -2,7 +2,7 @@
   "name": "maker",
   "version": 2,
   "env": {
-    "ETHEREUM_ACCOUNT": "ETHEREUM_ACCOUNT"
+    "ETHEREUM_ACCOUNT": "@ethereum-account"
   },
   "routes": [
     {
