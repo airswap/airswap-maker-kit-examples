@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@airswap/maker-kit@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@airswap/maker-kit/-/maker-kit-1.0.8.tgz#60c22d2030fde8932dc28c1cf5fe0b9b13366a68"
-  integrity sha512-eZZkPrtH8NoGXX7/tyKNxmlp4W5QKfZE0sTu6fc4FqSosGFkxRBs+oM2MWJnGSvMSA0+y6Ndadc17UnlyQKsjw==
+"@airswap/maker-kit@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@airswap/maker-kit/-/maker-kit-1.0.9.tgz#e5104d1575e20bd8df1ec8c86d792bdbbb41075e"
+  integrity sha512-2DwV2nalRYq9lZMAjMMBTKkaLcZHcWMsYaDX1sO+YiGw73NEBNU8FJKnsBeFZp3fbj2G1YmoG4TgiaiZJ8aKKQ==
   dependencies:
     "@airswap/order-utils" "0.3.12"
     "@airswap/swap" "3.3.4"

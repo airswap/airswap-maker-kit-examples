@@ -11,7 +11,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@airswap/maker-kit": "^1.0.8",
+    "@airswap/maker-kit": "^1.0.9",
     "@airswap/order-utils": "^0.3.12",
     "@airswap/swap": "^2.2.2",
     "@now/node": "^1.1.2",
