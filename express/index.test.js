@@ -8,7 +8,7 @@ const { orders } = require('@airswap/order-utils')
 const server = require('./server.js')
 
 // JSON-RPC client instance
-const client = jayson.client.http(`http://0.0.0.0:8080/`)
+const client = jayson.client.http(`http://0.0.0.0:3000/`)
 
 // Dummy values for tokens and wallets
 const senderWallet = '0x1FF808E34E4DF60326a3fc4c2b0F80748A3D60c2'
@@ -19,7 +19,7 @@ const unusedToken = constants.ADDRESS_ZERO
 describe('Maker', function() {
   // Start the server before any tests
   before(function() {
-    server.start(8080, '0.0.0.0', 'error')
+    server.start(3000, '0.0.0.0', 'error')
   })
 
   // Stop the server after all tests
