@@ -1,7 +1,5 @@
 # AirSwap Maker Kit Examples
 
-**:warning: Maker Kit is in beta for use on Rinkeby only.**
-
 Maker Kit includes tools and examples to help you get started on the AirSwap Network.
 
 [![Discord](https://img.shields.io/discord/590643190281928738.svg)](https://discord.gg/ecQbV7H)
