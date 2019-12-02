@@ -6,7 +6,7 @@
   "author": "Graham Perich <graham@fluidity.io>",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha index.test.js"
+    "test": "yarn mocha index.test.js"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -18,5 +18,8 @@
     "express": "^4.17.1",
     "jayson": "^3.1.2",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
   }
 }
