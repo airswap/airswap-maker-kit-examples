@@ -59,7 +59,7 @@ To use an existing Ethereum node, set the `ETHEREUM_NODE` in your `.env` file. O
 
 ## Quick Start
 
-The reference Node.js maker is configured to quote `WETH/DAI` at price `0.1` on port `8080`.
+The reference Node.js maker is configured to quote `WETH/DAI` at price `0.1` on port `3000`.
 
 ### Testing your ZEIT maker Locally
 
