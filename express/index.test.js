@@ -33,7 +33,7 @@ describe('Maker', function() {
       client.request(
         'getSenderSideQuote',
         {
-          signerParam: 1,
+          signerParam: '1',
           signerToken,
           senderToken: unusedToken,
         },
@@ -48,7 +48,7 @@ describe('Maker', function() {
       client.request(
         'getSenderSideQuote',
         {
-          signerParam: 1,
+          signerParam: '1',
           signerToken,
           senderToken,
         },
@@ -68,7 +68,7 @@ describe('Maker', function() {
       client.request(
         'getSignerSideQuote',
         {
-          senderParam: 1,
+          senderParam: '1',
           signerToken,
           senderToken: unusedToken,
         },
@@ -83,7 +83,7 @@ describe('Maker', function() {
       client.request(
         'getSignerSideQuote',
         {
-          senderParam: 1,
+          senderParam: '1',
           signerToken,
           senderToken,
         },
@@ -136,7 +136,7 @@ describe('Maker', function() {
       client.request(
         'getSenderSideOrder',
         {
-          signerParam: 1,
+          signerParam: '1',
           signerToken,
           senderWallet,
           senderToken: unusedToken,
@@ -152,7 +152,7 @@ describe('Maker', function() {
       client.request(
         'getSenderSideOrder',
         {
-          signerParam: 1,
+          signerParam: '1',
           signerToken,
           senderWallet,
           senderToken,
@@ -173,7 +173,7 @@ describe('Maker', function() {
       client.request(
         'getSignerSideOrder',
         {
-          signerParam: 1,
+          signerParam: '1',
           signerToken,
           senderWallet,
           senderToken: unusedToken,
@@ -191,7 +191,7 @@ describe('Maker', function() {
         {
           signerToken,
           senderWallet,
-          senderParam: 1,
+          senderParam: '1',
           senderToken,
         },
         function(err, error, result) {
