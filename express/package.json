@@ -1,9 +1,12 @@
 {
   "name": "maker-kit-example-express",
   "version": "0.0.1",
-  "description": "An example Express.js order maker for the Swap Protocol (https://docs.airswap.io)",
+  "description": "An example maker for AirSwap using Express.js (https://docs.airswap.io)",
   "main": "index.js",
-  "author": "Graham Perich <graham@fluidity.io>",
+  "contributors": [
+    "Don Mosites <don.mosites@fluidity.io>",
+    "Graham Perich <graham.perich@fluidity.io>"
+  ],
   "scripts": {
     "start": "node index.js",
     "test": "yarn mocha index.test.js"

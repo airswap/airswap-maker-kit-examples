@@ -1,9 +1,12 @@
 {
   "name": "maker-kit-example-zeit-now",
   "version": "0.0.1",
-  "description": "An example Serverless order maker for the Swap Protocol (https://docs.airswap.io)",
+  "description": "An example maker for AirSwap using ZEIT (https://docs.airswap.io)",
   "main": "api/index.ts",
-  "author": "Graham Perich <graham@fluidity.io>",
+  "contributors": [
+    "Don Mosites <don.mosites@fluidity.io>",
+    "Graham Perich <graham.perich@fluidity.io>"
+  ],
   "scripts": {
     "prettier:run-all": "prettier --write \"src/**/*.{ts,tsx}\"",
     "types": "tsc",
