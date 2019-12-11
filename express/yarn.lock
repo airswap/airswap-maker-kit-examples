@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@airswap/maker-kit@1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@airswap/maker-kit/-/maker-kit-1.0.12.tgz#980b868e1a144427d4633c616e91db9b3e3ab2b3"
-  integrity sha512-SJy4IhLhoxD5K2jXMTPDgnX+LH+MbcF9uj21+kXkkMU/dH6rKsUTDWEf5GnK2bwFRzxQHkOOM9h1Pn0kaP8rFA==
+"@airswap/maker-kit@1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@airswap/maker-kit/-/maker-kit-1.0.14.tgz#030f976149cf27b79e51c3a73517a23a13de169a"
+  integrity sha512-ggnX7pVfycgIXXb0r1ykaY9VbQi1MLX2OK5MIGvzWEH9vZK94kHOyfZRdRD5P+hqcBpUeUZnB8pIFGJd4I86PQ==
   dependencies:
-    "@airswap/order-utils" "0.3.12"
-    "@airswap/swap" "3.3.4"
+    "@airswap/order-utils" "0.3.13"
+    "@airswap/swap" "3.3.5"
     bignumber.js "^9.0.0"
     ethers "^4.0.39"
 
@@ -46,14 +46,6 @@
     "@airswap/types" "0.4.3"
     openzeppelin-solidity "2.3"
 
-"@airswap/swap@3.3.4":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@airswap/swap/-/swap-3.3.4.tgz#d38b9d61bacdeb7d9fec750732b502a29a47fe0a"
-  integrity sha512-2D/3jmlCqL2UZwt8/6RcV4YrOAnNMDOQBmH2d/VqJYkoGgBYO1hAAiLNG6aYds2z9exSO9ubQ2cqnnxmZXAi6A==
-  dependencies:
-    "@airswap/types" "1.4.3"
-    openzeppelin-solidity "2.3"
-
 "@airswap/swap@3.3.5":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@airswap/swap/-/swap-3.3.5.tgz#f46f6de1f3f159d90d267881ad26ebe86e1432cc"
@@ -73,13 +65,6 @@
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@airswap/types/-/types-0.4.3.tgz#7344637dfb3328ef32bd656a6fc343c8cd96afba"
   integrity sha512-f1UjilkI8Rv3zHyrR5hjOj7PYNK8U+0DAMkN85flF/x1op6XP4D/htXZKouGvYmFU284CxPznH6AfbMKjGK18w==
-  dependencies:
-    openzeppelin-solidity "2.3"
-
-"@airswap/types@1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@airswap/types/-/types-1.4.3.tgz#2076cc865b0cd6267c93b61151c7f43887e55f1e"
-  integrity sha512-B0yULgKxGNivABdyN70/wB/6lq/O0RzbKmKfSfHIsdZ82Gr7omjYysxuVWlJ+fWCBT5vuEe8kgbJdfLqaY5qbA==
   dependencies:
     openzeppelin-solidity "2.3"
 
