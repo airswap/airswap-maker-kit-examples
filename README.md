@@ -83,6 +83,16 @@ The reference Node.js maker is configured to quote `WETH/DAI` at price `0.1` on 
 1. From the root of this directory, run `now`
 2. That's all there is to it!
 
+## Connecting to a remote server
+
+In some cases it may not be feasible to develop all of your pricing logic inside your ZEIT maker. Maybe your pricing logic is already developed in another programming language, or you have pre existing infrastucture. In these cases, you can simply use ZEIT serverless as a proxy layer that sits between the end user and your remote pricing server. This creates a nice seperation of concerns. The ZEIT maker will handle web details such as CORS and SSL, and it will forward quote/order requests to your remote server for processing.
+
+Follow the steps below to see a demo of this proxy configuration.
+
+1. In `now.json`, change the value of the `"dest"` field on line 16 from `"/api/index.ts"` to `"/api/index.proxy.ts"`
+2. In a command line window, run `yarn mock-price-server` to start a mock server locally on port `1337`
+3. In another command line window, run `now dev` to start the ZEIT process on port `3000`
+4. Now, whenever you query your maker on port `3000`, you'll see that all the requests get proxied to the mock pricing server.
 
 ## Notes
 
