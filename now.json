@@ -1,5 +1,5 @@
 {
-  "name": "maker",
+  "name": "m",
   "version": 2,
   "env": {
     "ETHEREUM_ACCOUNT": "@ethereum-account"
