@@ -3,7 +3,7 @@ import winston from 'winston' // logger
 import connect from 'connect' // expressJS-like middleware helper
 import cors from 'cors' // CORS middleware
 import bodyParser from 'body-parser' // request body parsing middleware
-import initHandlers from '@airswap/maker-kit' // airswap maker logic reference implementation
+import initHandlers from '../handlers' // airswap maker logic reference implementation
 
 // Make sure environment variable is set
 if (!process.env.ETHEREUM_ACCOUNT) {
@@ -24,7 +24,7 @@ const handlers = initHandlers(process.env.ETHEREUM_ACCOUNT)
 
 // Listen and respond to incoming JSON-RPC over HTTP requests
 const server = new jayson.Server(handlers, {
-  router: function(method) {
+  router(method) {
     try {
       logger.info(`Received ${method} request`)
       return this._methods[method]
