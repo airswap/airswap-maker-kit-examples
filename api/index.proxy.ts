@@ -12,6 +12,7 @@ import connect from 'connect' // expressJS-like middleware helper
 import cors from 'cors' // CORS middleware
 import bodyParser from 'body-parser' // request body parsing middleware
 import axios, { AxiosRequestConfig } from 'axios' // Promise based HTTP client for the browser and node.js
+import { keccak256 } from 'ethers/utils'
 
 // Your remote pricing/hedging server
 const PRICING_SERVER_URL = 'http://localhost:1337'
@@ -33,6 +34,7 @@ const logger = winston.createLogger({
 // you can also add some auth headers here if you want
 // https://github.com/axios/axios#axios-api
 function makeRequestConfig(params): AxiosRequestConfig {
+  console.log('params', params)
   return {
     method: 'POST',
     url: PRICING_SERVER_URL,
@@ -41,86 +43,36 @@ function makeRequestConfig(params): AxiosRequestConfig {
 }
 
 // Forward JSON-RPC requests to our pricing server
-const handlers = {
-  getSenderSideQuote: (params, callback) => {
-    axios(makeRequestConfig(params))
-      .then(response => {
-        console.log('got a response from our server', response.data)
-        // you could also check the response from your server here to make sure it's valid and not an error
-
-        // we pass null as the first argument because there is no error
-        // we pass the response as the second argument, which sends the quote/order back to the requester
-        callback(null, response.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-        // since we have an error, we pass the error to the requester with the _correct_ protocol-defined error code
-        // https://docs.airswap.io/instant/run-makers#error-codes
-        callback({ code: -32603, message: error.message })
-      })
-  },
-  getSignerSideQuote: (params, callback) => {
-    axios(makeRequestConfig(params))
-      .then(response => {
-        console.log('got a getSignerSideQuote pricing response', response.data)
-        callback(null, response.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-        callback({ code: -32603, message: error.message })
-      })
-  },
-  getMaxQuote: (params, callback) => {
-    axios(makeRequestConfig(params))
-      .then(response => {
-        console.log('got a getMaxQuote pricing response', response.data)
-        callback(null, response.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-        callback({ code: -32603, message: error.message })
-      })
-  },
-  getSenderSideOrder: (params, callback) => {
-    axios(makeRequestConfig(params))
-      .then(response => {
-        console.log('got a getSenderSideOrder pricing response', response.data)
-        callback(null, response.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-        callback({ code: -32603, message: error.message })
-      })
-  },
-  getSignerSideOrder: (params, callback) => {
-    axios(makeRequestConfig(params))
-      .then(response => {
-        console.log('got a getSignerSideOrder pricing response', response.data)
-        callback(null, response.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-        callback({ code: -32603, message: error.message })
-      })
-  },
-  ping: (params, callback) => {
-    callback(null, 'pong')
-  },
-}
-
-// Listen and respond to incoming JSON-RPC over HTTP requests
-const server = new jayson.Server(handlers, {
-  router(method) {
-    try {
-      logger.info(`Received ${method} request`)
-      return this._methods[method]
-    } catch (e) {
+const server = new jayson.Server(
+  {},
+  {
+    router(method) {
       return new jayson.Method((params, callback) => {
-        callback(true, null)
+        axios({
+          method: 'POST',
+          url: PRICING_SERVER_URL,
+          data: {
+            method,
+            params,
+          },
+        })
+          .then(response => {
+            // you could also check the response from your server here to make sure it's valid and not an error
+            console.log('got a response from our server', response.data)
+            // we pass null as the first argument because there is no error
+            // we pass the response as the second argument, which sends the quote/order back to the requester
+            callback(null, response.data)
+          })
+          .catch(error => {
+            console.log(error.message)
+            // since we have an error, we pass the error to the requester with the _correct_ protocol-defined error code
+            // https://docs.airswap.io/instant/run-makers#error-codes
+            callback({ code: -32603, message: error.message })
+          })
       })
-    }
+    },
   },
-})
+)
 
 // Instantiate our express-style middleware helper
 const app = connect()
