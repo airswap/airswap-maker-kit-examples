@@ -94,19 +94,6 @@ Follow the steps below to see a demo of this proxy configuration.
 3. In another command line window, run `now dev` to start the ZEIT process on port `3000`
 4. Now, whenever you query your maker on port `3000`, you'll see that all the requests get proxied to the mock pricing server.
 
-### Testing your ZEIT maker Locally
-
-1. From the root of this directory, run `now dev`
-2. In another command line window, navigate to [Maker Kit](https://github.com/airswap/airswap-maker-kit)
-3. Make sure that you've also created an appropriate `.env` in `maker-kit`
-4. Run `yarn peers:get`, press enter through all prompts except "locator". When asked for locator, specify `http://localhost:3000`
-5. Observe that your Zeit Serverless function successfully serves a quote successfully!
-
-### Deploying your ZEIT Maker to the cloud
-
-1. From the root of this directory, run `now`
-2. That's all there is to it!
-
 ## Notes
 
 - **CORS** - Makers must run their servers with CORS enabled to accept connections from in-browser web applications including AirSwap Instant.
