@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
@@ -16,6 +16,5 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src/**/*", "src/types"],
-  "exclude": ["hotjar.js"]
+  "include": ["api/**/*"]
 }
