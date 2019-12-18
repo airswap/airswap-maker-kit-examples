@@ -1,11 +1,11 @@
 const assert = require('assert')
 const ethers = require('ethers')
 const BigNumber = require('bignumber.js')
-const constants = require('./constants.js')
+const constants = require('../api/constants.js')
 const { orders } = require('@airswap/order-utils')
 
 const wallet = ethers.Wallet.createRandom()
-const initializeHandlers = require('./handlers.js')
+const initializeHandlers = require('../api/handlers.js')
 
 // Dummy values for tokens and wallets
 const senderWallet = '0x1FF808E34E4DF60326a3fc4c2b0F80748A3D60c2'

@@ -3,7 +3,7 @@ import winston from 'winston' // logger
 import connect from 'connect' // expressJS-like middleware helper
 import cors from 'cors' // CORS middleware
 import bodyParser from 'body-parser' // request body parsing middleware
-import initHandlers from '../handlers' // airswap maker logic reference implementation
+import initHandlers from './handlers' // airswap maker logic reference implementation
 
 // Make sure environment variable is set
 if (!process.env.ETHEREUM_ACCOUNT) {
