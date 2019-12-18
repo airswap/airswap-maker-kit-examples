@@ -8,11 +8,10 @@
     "Graham Perich <graham.perich@fluidity.io>"
   ],
   "scripts": {
-    "prettier:run-all": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "mock-price-server": "node mockPricingServer.js",
+    "mock-price-server": "node test/mock-backend.js",
     "types": "tsc",
     "lint": "eslint . --ext .ts,.tsx",
-    "test": "yarn mocha handlers.test.js"
+    "test": "yarn mocha test/handlers.test.js"
   },
   "license": "Apache-2.0",
   "dependencies": {
