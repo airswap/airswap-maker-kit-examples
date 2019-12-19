@@ -166,7 +166,7 @@ function hasParams(params, required) {
   return true
 }
 
-// Peer API Implementation
+// Maker API Implementation https://docs.airswap.io/instant/run-makers#maker-api
 const handlers = {
   getSenderSideQuote: tradingPairGuard(
     maxAmountGuard(function(params, callback) {
