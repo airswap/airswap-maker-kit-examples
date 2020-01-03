@@ -65,7 +65,7 @@ function priceBuy({ senderAmount, senderToken, signerToken }) {
     .toString()
 }
 
-// Get max param based on whether signerAmount or senderAmount is provided
+// Get max amount based on whether signerAmount or senderAmount is provided
 function getMaxAmount(params) {
   if ('signerAmount' in params) {
     switch (params.signerToken) {
