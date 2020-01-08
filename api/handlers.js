@@ -57,7 +57,7 @@ function priceSell({ signerAmount, signerToken, senderToken }) {
   )
   // Calculate senderAmount in decimal
   const senderAmountDecimal = signerAmountDecimal.multipliedBy(tokenPrices[signerToken][senderToken])
-  // Convert senderAmount back to atomic and return
+  // Convert senderAmount to atomic and return
   return BigNumber(senderAmountDecimal)
     .multipliedBy(BigNumber(10).pow(constants.decimalsByAddress[senderToken]))
     .integerValue(BigNumber.ROUND_CEIL)
@@ -70,9 +70,9 @@ function priceBuy({ senderAmount, senderToken, signerToken }) {
   const senderAmountDecimal = BigNumber(senderAmount).dividedBy(
     BigNumber(10).pow(constants.decimalsByAddress[senderToken]),
   )
-  // Calculate senderAmount in decimal
+  // Calculate signerAmount in decimal
   const signerAmountDecimal = senderAmountDecimal.multipliedBy(tokenPrices[senderToken][signerToken])
-  // Convert senderAmount back to atomic and return
+  // Convert signerAmount to atomic and return
   return BigNumber(signerAmountDecimal)
     .multipliedBy(BigNumber(10).pow(constants.decimalsByAddress[signerToken]))
     .integerValue(BigNumber.ROUND_CEIL)
