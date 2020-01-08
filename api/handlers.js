@@ -51,18 +51,32 @@ function isTradingPair({ signerToken, senderToken }) {
 
 // Calculates the senderAmount: An amount the taker will send us in a sell
 function priceSell({ signerAmount, signerToken, senderToken }) {
-  return BigNumber(signerAmount)
-    .multipliedBy(tokenPrices[signerToken][senderToken])
+  // Convert signerAmount to decimal
+  const signerAmountDecimal = BigNumber(signerAmount).dividedBy(
+    BigNumber(10).pow(constants.decimalsByAddress[signerToken]),
+  )
+  // Calculate senderAmount in decimal
+  const senderAmountDecimal = signerAmountDecimal.multipliedBy(tokenPrices[signerToken][senderToken])
+  // Convert senderAmount to atomic and return
+  return BigNumber(senderAmountDecimal)
+    .multipliedBy(BigNumber(10).pow(constants.decimalsByAddress[senderToken]))
     .integerValue(BigNumber.ROUND_CEIL)
-    .toString()
+    .toFixed()
 }
 
 // Calculates the signerAmount: An amount we would send the taker in a buy
 function priceBuy({ senderAmount, senderToken, signerToken }) {
-  return BigNumber(senderAmount)
-    .dividedBy(tokenPrices[signerToken][senderToken])
-    .integerValue(BigNumber.ROUND_FLOOR)
-    .toString()
+  // Convert senderAmount to decimal
+  const senderAmountDecimal = BigNumber(senderAmount).dividedBy(
+    BigNumber(10).pow(constants.decimalsByAddress[senderToken]),
+  )
+  // Calculate signerAmount in decimal
+  const signerAmountDecimal = senderAmountDecimal.multipliedBy(tokenPrices[senderToken][signerToken])
+  // Convert signerAmount to atomic and return
+  return BigNumber(signerAmountDecimal)
+    .multipliedBy(BigNumber(10).pow(constants.decimalsByAddress[signerToken]))
+    .integerValue(BigNumber.ROUND_CEIL)
+    .toFixed()
 }
 
 // Get max amount based on whether signerAmount or senderAmount is provided
@@ -215,7 +229,7 @@ const handlers = {
       callback(
         null,
         createQuote({
-          signerAmount: signerAmount.toString(),
+          signerAmount: signerAmount.toFixed(),
           senderAmount: priceSell({ signerAmount, ...params }),
           ...params,
         }),
