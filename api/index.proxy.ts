@@ -38,15 +38,31 @@ const server = new jayson.Server(
         })
           .then(response => {
             // you could also check the response from your server here to make sure it's valid and not an error
-            console.log('got a response from our server', response.data)
-            // we pass null as the first argument because there is no error
-            // we pass the response as the second argument, which sends the quote/order back to the requester
-            callback(null, response.data)
+            // the way that you check for an error here will depend on your server's implemenetation.
+            // if your server sends an error-level HTTP code such as 500, then the error handling block in line 48
+            // will be invoked automatically.
+
+            // however, if you send an OK HTTP response with an error object, you will need to handle that here with a conditional
+            if ('error' in response.data) {
+              console.log('Received an error response from the server', response.data)
+              // example error handling (your implementation may vary):
+              // callback({ code: response.data['error']['code'], message: response.data['error']['message'] })
+              callback(response.data.error)
+            } else {
+              // we pass null as the first argument because there is no error
+              // we pass the response as the second argument, which sends the quote/order back to the requester
+              console.log('Received a resonse from the server', response.data)
+              callback(null, response.data)
+            }
           })
           .catch(error => {
             console.log(error.message)
             // since we have an error, we pass the error to the requester with the _correct_ protocol-defined error code
             // https://docs.airswap.io/instant/run-makers#error-codes
+
+            // notice how we don't send the entire JSON-RPC error envelope here, e.g. { "jsonrpc": "2.0", "id": "123", "error": {}}
+            // that's because the jayson library we are using on line 24 takes care of _all_ JSON-RPC details
+            // we only need to send the error object, and jayson will take care of formatting it as a JSON-RPC message
             callback({ code: -32603, message: error.message })
           })
       })
