@@ -47,6 +47,7 @@ const server = new jayson.Server(
               console.log('Received an error response from the server', response.data)
               // example error handling (your implementation may vary):
               // callback({ code: response.data['error']['code'], message: response.data['error']['message'] })
+              callback(response.data.error)
             } else {
               // we pass null as the first argument because there is no error
               // we pass the response as the second argument, which sends the quote/order back to the requester
