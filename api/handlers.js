@@ -36,6 +36,9 @@ let signerPrivateKey
 // The public address for the private key
 let signerWallet
 
+// Whether to check token balances at runtime
+let skipBalanceChecks
+
 // Get an expiry based on current time plus default expiry
 function getExpiry() {
   return Math.round(new Date().getTime() / 1000) + DEFAULT_EXPIRY
@@ -83,12 +86,14 @@ function priceBuy({ senderAmount, senderToken, signerToken }) {
 
 // Determine available amount between token balance and local configuration
 async function getAvailableBalance(tokenAddress) {
-  const selectedNetwork = constants.chainNames[chainId]
-  const provider = ethers.getDefaultProvider(selectedNetwork)
-  const balance = await new ethers.Contract(tokenAddress, IERC20.abi, provider).balanceOf(signerWallet)
+  if (!skipBalanceChecks) {
+    const selectedNetwork = constants.chainNames[chainId]
+    const provider = ethers.getDefaultProvider(selectedNetwork)
+    const balance = await new ethers.Contract(tokenAddress, IERC20.abi, provider).balanceOf(signerWallet)
 
-  if (balance.lt(tokenAmounts[tokenAddress])) {
-    return BigNumber(balance)
+    if (balance.lt(tokenAmounts[tokenAddress])) {
+      return BigNumber(balance)
+    }
   }
   return BigNumber(tokenAmounts[tokenAddress])
 }
@@ -248,8 +253,8 @@ const handlers = {
       }
     }),
   ),
-  getMaxQuote: tradingPairGuard(function(params, callback) {
-    const signerAmount = getMaxAmount({ signerAmount: params.signerAmount, signerToken: params.signerToken })
+  getMaxQuote: tradingPairGuard(async function(params, callback) {
+    const signerAmount = await getMaxAmount({ signerAmount: params.signerAmount, signerToken: params.signerToken })
     const required = ['signerToken', 'senderToken']
     if (hasParams(params, required)) {
       callback(
@@ -310,11 +315,12 @@ const handlers = {
   },
 }
 
-function initialize(_privateKey, _tokenPrices, _tokenAmounts, _tradingFunctions) {
+function initialize(_privateKey, _tokenPrices, _tokenAmounts, _tradingFunctions, _skipBalanceChecks) {
   if (!_privateKey) throw new Error('Private key is required')
   if (String(_privateKey).length !== 64) throw new Error('Private key should be 64 characters long')
   signerPrivateKey = Buffer.from(_privateKey, 'hex')
   signerWallet = new ethers.Wallet(signerPrivateKey).address
+  skipBalanceChecks = _skipBalanceChecks
 
   // If provided, override default trading functions
   // isTradingPair, priceBuy, priceSell, getMaxAmount are required
