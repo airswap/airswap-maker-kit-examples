@@ -26,7 +26,7 @@ function toAtomicAmount(amount, decimals) {
 
 describe('Setup', function() {
   before(() => {
-    handlers = initializeHandlers(wallet.privateKey.slice(2))
+    handlers = initializeHandlers(wallet.privateKey.slice(2), false, false, false, true)
   })
 
   it('ping', done => {
@@ -39,7 +39,7 @@ describe('Setup', function() {
 
 describe('Trading Pair Guard', function() {
   before(() => {
-    handlers = initializeHandlers(wallet.privateKey.slice(2))
+    handlers = initializeHandlers(wallet.privateKey.slice(2), false, false, false, true)
   })
 
   it('getSenderSideQuote: should fail for inactive token pair', done => {
@@ -118,7 +118,7 @@ describe('Trading Pair Guard', function() {
 
 describe('Required Params', function() {
   before(() => {
-    handlers = initializeHandlers(wallet.privateKey.slice(2))
+    handlers = initializeHandlers(wallet.privateKey.slice(2), false, false, false, true)
   })
 
   it('getSenderSideQuote: should fail for insufficient params', done => {
@@ -300,6 +300,8 @@ describe('Custom Pricing Data', function() {
         '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea': '20000000000000000000000',
         '0xc778417e063141139fce010982780140aa0cd5ab': '100000000000000000000',
       },
+      false,
+      true,
     )
   })
   it('getSenderSideQuote: given signer 1 DAI, should return sender 0.1 WETH', done => {
@@ -320,31 +322,37 @@ describe('Custom Pricing Data', function() {
 
 describe('Custom Pricing Handlers', function() {
   before(() => {
-    handlers = initializeHandlers(wallet.privateKey.slice(2), false, false, {
-      isTradingPair({ signerToken, senderToken }) {
-        if (signerToken === constants.rinkebyTokens.WETH && senderToken === constants.rinkebyTokens.DAI) {
-          return true
-        }
-        return false
+    handlers = initializeHandlers(
+      wallet.privateKey.slice(2),
+      false,
+      false,
+      {
+        isTradingPair({ signerToken, senderToken }) {
+          if (signerToken === constants.rinkebyTokens.WETH && senderToken === constants.rinkebyTokens.DAI) {
+            return true
+          }
+          return false
+        },
+        priceBuy({ senderAmount }) {
+          const customPrice = 0.1
+          return BigNumber(senderAmount)
+            .multipliedBy(customPrice)
+            .toFixed(0)
+        },
+        priceSell({ signerAmount }) {
+          const customPrice = 10
+          return BigNumber(signerAmount)
+            .multipliedBy(customPrice)
+            .toFixed(0)
+        },
+        getMaxAmount({ signerToken }) {
+          if (signerToken === constants.rinkebyTokens.WETH) {
+            return BigNumber(toAtomicAmount(50, constants.decimals.WETH))
+          }
+        },
       },
-      priceBuy({ senderAmount }) {
-        const customPrice = 0.1
-        return BigNumber(senderAmount)
-          .multipliedBy(customPrice)
-          .toFixed(0)
-      },
-      priceSell({ signerAmount }) {
-        const customPrice = 10
-        return BigNumber(signerAmount)
-          .multipliedBy(customPrice)
-          .toFixed(0)
-      },
-      getMaxAmount({ signerToken }) {
-        if (signerToken === constants.rinkebyTokens.WETH) {
-          return BigNumber(toAtomicAmount(50, constants.decimals.WETH))
-        }
-      },
-    })
+      true,
+    )
   })
 
   it('getSenderSideQuote: should fail for inactive token pair', done => {
