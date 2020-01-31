@@ -105,7 +105,7 @@ async function getMaxAmount(params) {
   } else if ('senderAmount' in params) {
     switch (params.signerToken) {
       case constants.rinkebyTokens.DAI:
-        return BigNumber(priceBuy({ signerAmount: await getAvailableBalance(constants.rinkebyTokens.WETH), ...params }))
+        return BigNumber(priceBuy({ signerAmount: await getAvailableBalance(constants.rinkebyTokens.DAI), ...params }))
       case constants.rinkebyTokens.WETH:
         return BigNumber(
           priceSell({ signerAmount: await getAvailableBalance(constants.rinkebyTokens.WETH), ...params }),
