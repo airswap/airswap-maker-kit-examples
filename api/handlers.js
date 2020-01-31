@@ -2,6 +2,7 @@ const ethers = require('ethers')
 const BigNumber = require('bignumber.js')
 const { orders, signatures } = require('@airswap/order-utils')
 const swapDeploys = require('@airswap/swap/deploys.json')
+const IERC20 = require('@airswap/tokens/build/contracts/IERC20.json')
 
 const constants = require('./constants.js')
 const orderConstants = require('@airswap/order-utils/src/constants.js')
@@ -34,6 +35,7 @@ let signerPrivateKey
 
 // The public address for the private key
 let signerWallet
+
 // Get an expiry based on current time plus default expiry
 function getExpiry() {
   return Math.round(new Date().getTime() / 1000) + DEFAULT_EXPIRY
@@ -79,21 +81,35 @@ function priceBuy({ senderAmount, senderToken, signerToken }) {
     .toFixed()
 }
 
+// Determine available amount between token balance and local configuration
+async function getAvailableBalance(tokenAddress) {
+  const selectedNetwork = constants.chainNames[chainId]
+  const provider = ethers.getDefaultProvider(selectedNetwork)
+  const balance = await new ethers.Contract(tokenAddress, IERC20.abi, provider).balanceOf(signerWallet)
+
+  if (balance.lt(tokenAmounts[tokenAddress])) {
+    return BigNumber(balance)
+  }
+  return BigNumber(tokenAmounts[tokenAddress])
+}
+
 // Get max amount based on whether signerAmount or senderAmount is provided
-function getMaxAmount(params) {
+async function getMaxAmount(params) {
   if ('signerAmount' in params) {
     switch (params.signerToken) {
       case constants.rinkebyTokens.WETH:
-        return BigNumber(tokenAmounts[constants.rinkebyTokens.WETH])
+        return await getAvailableBalance(constants.rinkebyTokens.WETH)
       case constants.rinkebyTokens.DAI:
-        return BigNumber(tokenAmounts[constants.rinkebyTokens.DAI])
+        return await getAvailableBalance(constants.rinkebyTokens.DAI)
     }
   } else if ('senderAmount' in params) {
     switch (params.signerToken) {
       case constants.rinkebyTokens.DAI:
-        return BigNumber(priceBuy({ signerAmount: tokenAmounts[constants.rinkebyTokens.DAI], ...params }))
+        return BigNumber(priceBuy({ signerAmount: await getAvailableBalance(constants.rinkebyTokens.WETH), ...params }))
       case constants.rinkebyTokens.WETH:
-        return BigNumber(priceSell({ signerAmount: tokenAmounts[constants.rinkebyTokens.WETH], ...params }))
+        return BigNumber(
+          priceSell({ signerAmount: await getAvailableBalance(constants.rinkebyTokens.WETH), ...params }),
+        )
     }
   } else {
     throw new Error('Neither signerAmount or senderAmount provided to getMaxAmount')
@@ -155,17 +171,27 @@ function tradingPairGuard(proceed) {
 
 // If above maximum amount return an error
 function maxAmountGuard(proceed) {
-  return function(params, callback) {
-    if ('signerAmount' in params && getMaxAmount(params).lt(params.signerAmount)) {
-      callback({
-        code: -33603,
-        message: `Maximum signerAmount is ${getMaxAmount(params)}`,
-      })
-    } else if ('senderAmount' in params && getMaxAmount(params).lt(params.senderAmount)) {
-      callback({
-        code: -33603,
-        message: `Maximum senderAmount is ${getMaxAmount(params)}`,
-      })
+  return async function(params, callback) {
+    if ('signerAmount' in params) {
+      const maxSignerAmount = await getMaxAmount(params)
+      if (maxSignerAmount.lt(params.signerAmount)) {
+        callback({
+          code: -33603,
+          message: `Maximum signerAmount is ${maxSignerAmount}`,
+        })
+      } else {
+        proceed(params, callback)
+      }
+    } else if ('senderAmount' in params) {
+      const maxSenderAmount = await getMaxAmount(params)
+      if (maxSenderAmount.lt(params.senderAmount)) {
+        callback({
+          code: -33603,
+          message: `Maximum senderAmount is ${maxSenderAmount}`,
+        })
+      } else {
+        proceed(params, callback)
+      }
     } else {
       proceed(params, callback)
     }
