@@ -1,5 +1,5 @@
 {
-  "name": "airswap-maker-example-zeit",
+  "name": "airswap-zeit-example",
   "version": "0.0.1",
   "description": "An example maker for AirSwap using ZEIT (https://docs.airswap.io)",
   "main": "api/index.ts",
