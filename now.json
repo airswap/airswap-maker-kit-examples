@@ -1,5 +1,4 @@
 {
-  "name": "m",
   "version": 2,
   "env": {
     "ETHEREUM_ACCOUNT": "@ethereum-account"
@@ -7,7 +6,10 @@
   "routes": [
     {
       "src": "/",
-      "methods": ["POST", "OPTIONS"],
+      "methods": [
+        "POST",
+        "OPTIONS"
+      ],
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
