@@ -36,8 +36,8 @@ now login
 #### 3. Clone this repo and install dependencies
 
 ```
-git clone https://github.com/airswap/airswap-maker-example-zeit
-cd airswap-maker-example-zeit
+git clone git@github.com:airswap/airswap-vercel-example.git
+cd airswap-vercel-example
 yarn install
 ```
 
